@@ -1,0 +1,48 @@
+/* Welcome Page Styling */
+.welcome-page {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #ffffff;
+}
+
+.welcome-page h1 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.welcome-page p {
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+    color: #666;
+    text-align: center;
+    max-width: 600px;
+}
+
+.welcome-page button {
+    padding: 15px 30px;
+    font-size: 1.2rem;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.welcome-page button:hover {
+    background-color: #45a049;
+}
+
+/* Additional Global Styles for Consistency */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+.App {
+    text-align: center;
+}
