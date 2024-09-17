@@ -1,60 +1,26 @@
 import React, { useState } from 'react';
-import TrialLayout from './components/TrialLayout';
-import '../src/styles/App.css';
-
-const trials = [
-  {
-    // First trial with the same incremental instructions
-    instructionSteps: [
-      "Click on the picture of the",
-      "Click on the picture of the warm",
-      "Click on the picture of the warm water",
-      "Click on the picture of the warm water with the purple spoon."
-    ],
-    images: [
-      { id: 1, label: "Competitor", imgSrc: "/trial-1/competitor.png" },
-      { id: 2, label: "Target", imgSrc: "/trial-1/target.png" },
-      { id: 3, label: "Contrast", imgSrc: "/trial-1/contrast.png" },
-      { id: 4, label: "Distractor", imgSrc: "/trial-1/distractor.png" }
-    ]
-  },
-  {
-    // Second trial with the same instruction but different images
-    instructionSteps: [
-      "Click on the picture of the",
-      "Click on the picture of the warm",
-      "Click on the picture of the warm water",
-      "Click on the picture of the warm water with the purple spoon."
-    ],
-    images: [
-      { id: 1, label: "Distractor-1", imgSrc: "/trial-2/distractor-1.png" },
-      { id: 2, label: "Target", imgSrc: "/trial-2/target.png" },
-      { id: 3, label: "Distractor-2", imgSrc: "/trial-2/distractor-2.png" },
-      { id: 4, label: "Competitor", imgSrc: "/trial-2/competitor.png" }
-    ]
-  }
-];
+import InfoForm from './components/InfoForm';
+import TrialPage from './components/TrialPage'; // Import your TrialPage component
+import './styles/App.css'; // Assuming you have global styles
 
 function App() {
-  const [showWelcomePage, setShowWelcomePage] = useState(true); // Default is to show the welcome page
-  const [currentTrialIndex, setCurrentTrialIndex] = useState(0); // Added state for current trial index
+  const [stage, setStage] = useState('welcome'); // Track the current stage ('welcome', 'form', 'trial')
+  const [userData, setUserData] = useState({});  // Track the form data (user data)
 
   const handleStartClick = () => {
-    setShowWelcomePage(false); // Hide the welcome page and show the first trial
+    setStage('form'); // Move from welcome page to the form
+  };
+
+  const handleFormSubmit = (formData) => {
+    setUserData(formData); // Save the form data
+    setStage('trial'); // Move from the form to the trial
   };
 
   return (
       <div className="App">
-        {showWelcomePage ? (
-            <WelcomePage onStartClick={handleStartClick} />
-        ) : (
-            <TrialLayout
-                trials={trials}
-                currentTrialIndex={currentTrialIndex}
-                setCurrentTrialIndex={setCurrentTrialIndex} // Passing setCurrentTrialIndex to TrialLayout
-                totalTrials={trials.length}
-            />
-        )}
+        {stage === 'welcome' && <WelcomePage onStartClick={handleStartClick} />}
+        {stage === 'form' && <InfoForm onSubmit={handleFormSubmit} />}
+        {stage === 'trial' && <TrialPage userData={userData} />} {/* Pass userData to TrialPage */}
       </div>
   );
 }
@@ -62,8 +28,8 @@ function App() {
 function WelcomePage({ onStartClick }) {
   return (
       <div className="welcome-page">
-        <h1>Welcome to the Trial Task</h1>
-        <p>In this task, you will be asked to click on images based on instructions given incrementally.</p>
+        <h1>Welcome to the Study</h1>
+        <p>Thank you for participating! In this study, you will be asked to provide some basic information and complete a task.</p>
         <button onClick={onStartClick}>Start</button>
       </div>
   );
