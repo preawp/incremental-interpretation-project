@@ -1,14 +1,36 @@
+.instruction {
+    position: relative;
+    width: 100%;
+    height: 60px;
+    margin: 20px auto;
+    display: flex;
+    justify-content: flex-start;
+    padding-left: 20%;
+    font-size: 1.5rem;
+    font-weight: bold;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.word {
+    position: relative;
+    display: inline-block;
+    margin-right: 5px;
+}
+
 .trial-layout {
     display: flex;
     flex-direction: column;
     align-items: center;
     margin-top: 50px;
+    width: 100%;
 }
 
-.instruction {
-    margin: 20px;
-    font-size: 1.5rem;
+.trial-number {
+    margin-top: 10px;
+    font-size: 1.2rem;
     font-weight: bold;
+    color: #333;
     text-align: center;
 }
 
@@ -45,10 +67,4 @@
     text-align: center;
 }
 
-.trial-number {
-    margin-top: 10px;
-    font-size: 1.2rem;
-    font-weight: bold;
-    color: #333;
-}
 

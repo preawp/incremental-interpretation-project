@@ -29,7 +29,7 @@ function WelcomePage({ onStartClick }) {
   return (
       <div className="welcome-page">
         <h1>Welcome to the Study</h1>
-        <p>Thank you for participating! In this study, you will be asked to provide some basic information and complete a task.</p>
+        <p>Thank you for participating! In this study, you will be asked to provide some basic information and complete a set of tasks</p>
         <button onClick={onStartClick}>Start</button>
       </div>
   );
