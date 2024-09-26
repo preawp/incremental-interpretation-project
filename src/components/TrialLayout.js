@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import '../styles/TrialLayout.css'; // Make sure the styles are linked
-const TrialLayout = ({ trials, currentTrialIndex, totalTrials, setCurrentTrialIndex }) => {
+
+const TrialLayout = ({ trials, currentTrialIndex, totalTrials, setCurrentTrialIndex, onComplete }) => {
     const [instructionStepIndex, setInstructionStepIndex] = useState(0);
 
     const currentTrial = trials[currentTrialIndex];
@@ -19,7 +20,7 @@ const TrialLayout = ({ trials, currentTrialIndex, totalTrials, setCurrentTrialIn
             setCurrentTrialIndex(currentTrialIndex + 1);
             setInstructionStepIndex(0);
         } else {
-            alert("All trials completed!");
+            onComplete(); // Call the onComplete function to go to the Thank You page
         }
     };
 
@@ -43,6 +44,5 @@ const TrialLayout = ({ trials, currentTrialIndex, totalTrials, setCurrentTrialIn
         </div>
     );
 };
-
 
 export default TrialLayout;

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import TrialLayout from './TrialLayout'; // The trial layout component (same as before)
+import TrialLayout from './TrialLayout';
 
 const trials = [
     {
@@ -32,8 +32,16 @@ const trials = [
     }
 ];
 
-function TrialPage({ userData }) {
+function TrialPage({ userData, onComplete }) {
     const [currentTrialIndex, setCurrentTrialIndex] = useState(0);
+
+    const handleNextTrial = () => {
+        if (currentTrialIndex < trials.length - 1) {
+            setCurrentTrialIndex(currentTrialIndex + 1);
+        } else {
+            onComplete(); // Move to "Thank You" page when trials are finished
+        }
+    };
 
     return (
         <div>
@@ -41,7 +49,8 @@ function TrialPage({ userData }) {
                 trials={trials}
                 currentTrialIndex={currentTrialIndex}
                 setCurrentTrialIndex={setCurrentTrialIndex}
-                totalTrials={trials.length}
+                handleNextTrial={handleNextTrial}
+                onComplete={onComplete}
             />
         </div>
     );
