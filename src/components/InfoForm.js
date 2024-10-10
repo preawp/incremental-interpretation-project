@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import '../styles/InfoForm.css';  // Link to your CSS styles
+import '../styles/InfoForm.css';  
 
 function InfoForm({ onSubmit }) {
     const [formData, setFormData] = useState({
@@ -20,30 +20,32 @@ function InfoForm({ onSubmit }) {
     };
 
     
-    const handleSubmit = (e) => {
-        e.preventDefault();
-    
-        // Send the full form data
-        fetch('http://localhost:3001/submit-name', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(formData),  // Send all form data
+const handleSubmit = (e) => {
+    e.preventDefault();
+
+    // Send the full form data
+    fetch('http://localhost:3001/submit-name', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),  // Send all form data
+    })
+        .then(response => response.text())
+        .then(data => {
+            console.log(data);  // Log the success message
+            
+            alert(`Form submitted successfully! Name = ${formData.name}`);
+
         })
-            .then(response => response.text())
-            .then(data => {
-                console.log(data);  // Log the success message
-                alert(`Form submitted successfully! Name = ${formData.name}`);
-            })
-            .catch(error => {
-                console.error('Error submitting form:', error);
-                alert('An error occurred while submitting the form');
-            });
-    
-        onSubmit(formData);  // Optionally pass the form data to the parent if needed
-    };
-    
+        .catch(error => {
+            console.error('Error submitting form:', error);
+            alert('An error occurred while submitting the form');
+        });
+
+    onSubmit(formData);  // Optionally pass the form data to the parent if needed
+};
+
 
 
     return (

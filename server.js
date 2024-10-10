@@ -6,6 +6,7 @@ const app = express();
 const port = 3001;
 const fs = require('fs');
 const cors = require('cors');
+const { v4: uuidv4 } = require('uuid');  // Import the uuid library for unique user IDs, work later
 
 // Allow requests from localhost:3000
 const corsOptions = {

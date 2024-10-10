@@ -38,101 +38,6 @@ const trials = [
 
 function TrialPage({ userData, onComplete }) {
     const [currentTrialIndex, setCurrentTrialIndex] = useState(0);
-    const [userChoices, setUserChoices] = useState([]);  // Track user choices for each trial
-
-   // Object to store the current trial choices
-   const [currentTrialChoices, setCurrentTrialChoices] = useState({
-    first_choice: null,
-    second_choice: null,
-    third_choice: null,
-    fourth_choice: null
-});
-
-const handleImageClick = (imageLabel, step) => {
-    // Save the choice based on the step (1 to 4)
-    const updatedChoices = { ...currentTrialChoices };
-    switch (step) {
-        case 1:
-            updatedChoices.first_choice = imageLabel;
-            break;
-        case 2:
-            updatedChoices.second_choice = imageLabel;
-            break;
-        case 3:
-            updatedChoices.third_choice = imageLabel;
-            break;
-        case 4:
-            updatedChoices.fourth_choice = imageLabel;
-            break;
-        default:
-            break;
-    }
-    setCurrentTrialChoices(updatedChoices); 
-    // Log the choices for debugging
-    console.log("Updated trial choices:", updatedChoices);
-
-};
-
-const handleNextTrial = () => {
-    // Store the current trial's choices into userChoices array
-    const trialData = {
-        list: trials[currentTrialIndex].list,
-        trial_id: trials[currentTrialIndex].trial_id,
-        ...currentTrialChoices  // Store first_choice, second_choice, etc.
-    };
-
-    setUserChoices([...userChoices, trialData]);  // Add the current trial's choices to userChoices
-
-    if (currentTrialIndex < trials.length - 1) {
-        setCurrentTrialIndex(currentTrialIndex + 1);
-        setCurrentTrialChoices({
-            first_choice: null,
-            second_choice: null,
-            third_choice: null,
-            fourth_choice: null
-        });  // Reset choices for the next trial
-    } else {
-        submitUserChoices();  // Submit all user choices when trials are finished
-        onComplete();  // Move to "Thank You" page when trials are finished
-    }
-};
-
-const submitUserChoices = () => {
-    const dataToSubmit = {
-        user_id: userData.userId,  // Use 'user_id' to match the backend
-        name: userData.name,
-        trials: userChoices.map((choice, index) => ({
-            trial_id: trials[index].trial_id,
-            list: trials[index].list,
-            first_choice: choice.first_choice,
-            second_choice: choice.second_choice,
-            third_choice: choice.third_choice,
-            fourth_choice: choice.fourth_choice
-        }))  // Structure trials data correctly
-    };
-
-    fetch('http://localhost:3001/submit-trial-data', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(dataToSubmit)  // Send the corrected structure
-    })
-    .then(response => {
-        if (response.ok) {
-            return response.json();
-        } else {
-            throw new Error('Failed to save choices');
-        }
-    })
-    .then(data => {
-        console.log("Choices saved successfully", data);
-    })
-    .catch(error => {
-        console.error("Error saving choices:", error);
-    });
-};
-
 
     return (
         <div>
@@ -140,12 +45,12 @@ const submitUserChoices = () => {
                 trials={trials}
                 currentTrialIndex={currentTrialIndex}
                 totalTrials={trials.length}
+                userData={userData}
                 setCurrentTrialIndex={setCurrentTrialIndex}
-                handleImageClick={handleImageClick}
-                handleNextTrial={handleNextTrial}
                 onComplete={onComplete}
             />
         </div>
     );
 }
+
 export default TrialPage;
