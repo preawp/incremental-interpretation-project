@@ -1,0 +1,18 @@
+#rel : Relative adjective scales: <warm, hot>, <chubby, fat>, <content, happy>
+#Minimum-standard adjective scales: <sleepy, asleep>, <breezy, windy>,
+<drizzly, rainy>
+
+
+list, id, contrast, image1, image2, image3, image4, expected, text
+1, rel1, yes
+1, rel2, yes
+1, rel3, yes
+1, min1, no
+1, min2, no
+1, min3, no
+2, rel1, no
+2, rel2, no
+2, rel3, no
+2, min1, yes
+2, min2, yes
+2, min3, yes

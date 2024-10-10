@@ -1,0 +1,3 @@
+number,item,reference,type,phrase,image1,image2,image3,expected
+1,1,no adj,the glasses,big_glasses.png,rabbit.png,big_sandwich.png,cheese.png,big_glasses.png
+2,2,color,the green frog,green_frog.png,brown_frog.png,violin.png,cat.png,green_frog.png

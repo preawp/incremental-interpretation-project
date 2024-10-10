@@ -1,0 +1,25 @@
+//meeting note
+
+Done:
+2 sample trials-> contrast / no contrast
+website basic mockup: welcome page, info form page
+
+TBD:
+data handling in .csv
+- Ensure that participant data and trial results are correctly saved to the backend.
+
+- Do we handle them similar to example project?
+       - .csv to store img and instructions, trials info
+       - userdata folder store .txt file (info of each participant)
+       - data folder store ,txt file (results)
+
+done:
+//instruction stay fixed, Choose the picture of the, ...
+//thank you for participating page
+
+
+//Subject_id item_id cord display_order, img_selected, text
+//block random assignment/ , alternative randomization
+
+
+4 *3 = 12 displays

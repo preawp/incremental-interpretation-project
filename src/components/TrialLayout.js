@@ -1,13 +1,17 @@
 import React, { useState } from 'react';
 import '../styles/TrialLayout.css'; // Make sure the styles are linked
 
-const TrialLayout = ({ trials, currentTrialIndex, totalTrials, setCurrentTrialIndex, onComplete }) => {
+const TrialLayout = ({ trials, currentTrialIndex, totalTrials, handleImageClick, setCurrentTrialIndex, onComplete }) => {
     const [instructionStepIndex, setInstructionStepIndex] = useState(0);
 
     const currentTrial = trials[currentTrialIndex];
     const words = currentTrial.instructionSteps[instructionStepIndex].split(" ");
 
-    const handleImageClick = () => {
+    // Updated handleImageClick to pass the step and image label to the parent
+    const handleImageClickLocal = (imageLabel) => {
+        console.log("Image clicked:", imageLabel, "at step", instructionStepIndex + 1);  // Debugging output
+    
+        handleImageClick(imageLabel, instructionStepIndex + 1); // Pass image label and step to parent
         if (instructionStepIndex < currentTrial.instructionSteps.length - 1) {
             setInstructionStepIndex(instructionStepIndex + 1);
         } else {
@@ -31,13 +35,13 @@ const TrialLayout = ({ trials, currentTrialIndex, totalTrials, setCurrentTrialIn
             </div>
             <div className="instruction">
                 {words.map((word, index) => (
-                    <span key={index} className={`word word-appear`}>{word}</span>
+                    <span key={index} className={`word word-appear`}>{word}</span>  // Corrected here
                 ))}
             </div>
             <div className="trial-grid">
                 {currentTrial.images.map((image) => (
-                    <div key={image.id} className="trial-option" onClick={handleImageClick}>
-                        <img src={image.imgSrc} alt={`Image ${image.id}`} className="trial-image" />
+                    <div key={image.id} className="trial-option" onClick={() => handleImageClickLocal(image.label)}>
+                        <img src={image.imgSrc} alt={image.label} className="trial-image" />
                     </div>
                 ))}
             </div>
