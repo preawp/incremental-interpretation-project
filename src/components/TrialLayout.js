@@ -89,7 +89,6 @@ const TrialLayout = ({ trials, currentTrialIndex, totalTrials, setCurrentTrialIn
     // Function to submit the collected trial data
     const submitUserChoices = () => {
         const dataToSubmit = {
-            user_id: userData.userId,
             name: userData.name,
             trials: userChoices  // This should now include all trials
         };
@@ -108,10 +107,10 @@ const TrialLayout = ({ trials, currentTrialIndex, totalTrials, setCurrentTrialIn
             return response.json();  // Extract JSON from the response
         })
         .then(data => {
-            console.log("Choices saved successfully:", data);  // Log the actual data returned by the server
+            console.log("Choices saved successfully");  // Log the actual data returned by the server
         })
         .catch(error => {
-            console.error("Error saving choices:", error);  // Log any errors
+            console.error("Error saving choices");  // Log any errors
         });
     };
 

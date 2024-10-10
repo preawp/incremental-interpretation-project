@@ -1,18 +1,17 @@
-#rel : Relative adjective scales: <warm, hot>, <chubby, fat>, <content, happy>
-#Minimum-standard adjective scales: <sleepy, asleep>, <breezy, windy>,
-<drizzly, rainy>
+##rel : Relative adjective scales: <warm, hot> ##
+##Minimum-standard adjective scales: <breezy, windy> ##
 
 
-list, id, contrast, image1, image2, image3, image4, expected, text
-1, rel1, yes
-1, rel2, yes
-1, rel3, yes
-1, min1, no
-1, min2, no
-1, min3, no
-2, rel1, no
-2, rel2, no
-2, rel3, no
-2, min1, yes
-2, min2, yes
-2, min3, yes
+trial_id, list, name, contrast, image1, image2, image3, image4, expected, text
+1, 1, rel1, yes, hot-competitor.png, warm-target.png, cold-contrast.png, rock-distractor.png, warm-target.png, Click on the picture of the warm water with the purple spoon.
+2, 1, rel2, yes
+3, 1, rel3, yes
+4, 1, min1, no
+5, 1, min2, no
+6, 1, min3, no
+7, 2, rel1, no
+8, 2, rel2, no
+9, 2, rel3, no
+10, 2, min1, yes
+11, 2, min2, yes
+12, 2, min3, yes

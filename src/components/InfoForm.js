@@ -3,6 +3,7 @@ import '../styles/InfoForm.css';
 
 function InfoForm({ onSubmit }) {
     const [formData, setFormData] = useState({
+        userID: '',
         name: '',
         age: '',
         gender: '',

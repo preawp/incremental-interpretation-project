@@ -6,7 +6,6 @@ const app = express();
 const port = 3001;
 const fs = require('fs');
 const cors = require('cors');
-const { v4: uuidv4 } = require('uuid');  // Import the uuid library for unique user IDs, work later
 
 // Allow requests from localhost:3000
 const corsOptions = {
@@ -20,13 +19,28 @@ app.use(cors(corsOptions));  // Apply the CORS middleware with options
 // Middleware to parse JSON data
 app.use(bodyParser.json());
 
-let userCount = 0;  // Track user IDs for unique filenames
+// File to store userCount
+const userCountFile = path.join(__dirname, 'userCount.txt');
 
-app.get('/submit-name', (req, res) => {
-    res.send('This is a GET request to /submit-name. Use POST to submit data.');
-});
+// Function to read userCount from file
+function getUserCount() {
+    if (fs.existsSync(userCountFile)) {
+        const storedCount = fs.readFileSync(userCountFile, 'utf-8');
+        return parseInt(storedCount, 10) || 0; // Default to 0 if parsing fails
+    } else {
+        return 0;
+    }
+}
 
-// Ensure 'userdata' directory exists
+// Function to increment and update userCount in file
+function incrementUserCount() {
+    let userCount = getUserCount();
+    userCount += 1;
+    fs.writeFileSync(userCountFile, userCount.toString());
+    return userCount;
+}
+
+// Ensure 'userdata' and 'data' directories exist
 const userDataDir = path.join(__dirname, 'userdata');
 const trialDataDir = path.join(__dirname, 'data');
 
@@ -39,18 +53,17 @@ if (!fs.existsSync(trialDataDir)) {
     console.log('Created "data" directory');
 }
 
-
-// POST route to handle form submission
 app.post('/submit-name', (req, res) => {
     const { name, age, gender, native, computer, fullscreen } = req.body;  // Extract all form data
 
-    // Increment user count for unique file naming
-    userCount += 1;
+    // Increment user count and assign a unique user ID
+    const userId = incrementUserCount();
+    console.log(`Updated userCount: ${userId}`);  // Log the updated userCount
 
-    // Define the absolute file path
-    const filePath = path.join(userDataDir, `userdata-${userCount}.csv`);  // Save the file in userdata directory
+    // Define the absolute file path for user data
+    const filePath = path.join(userDataDir, `userdata-${userId}.csv`);  // Save the file in userdata directory
 
-    console.log(`Saving file to: ${filePath}`);  // Use template literals for logging
+    console.log(`Saving file to: ${filePath}`);  // Log the file path
 
     // Set up the CSV writer for all the form data
     const csvWriter = createCsvWriter({
@@ -65,11 +78,12 @@ app.post('/submit-name', (req, res) => {
         ],
     });
 
-    // Write all form data to the CSV file
+    // Write form data (without extra 'user_id')
     csvWriter.writeRecords([{ name, age, gender, native, computer, fullscreen }])
         .then(() => {
-            console.log(`User data saved to ${filePath}`);  // Use template literals for logging
-            res.status(200).send(`Form data saved to ${filePath}`);  // Use template literals in response
+            console.log(`User data saved to ${filePath}`);
+            // Send the userId back to the frontend
+            res.status(200).json({ userId });
         })
         .catch(err => {
             console.error('Error writing CSV:', err);
@@ -77,15 +91,18 @@ app.post('/submit-name', (req, res) => {
         });
 });
 
-
 // POST route to handle trial data submission
 app.post('/submit-trial-data', (req, res) => {
-    const { user_id, name, trials } = req.body;  // Extract user_id, name, and trial data
+    const { name, trials } = req.body;  // Extract name, and trial data
 
+    // Get the current userCount again to ensure we have the correct user ID
+    const user_id = getUserCount();
+    console.log(`Received trial data for user_id: ${user_id}`); 
+    
     // Define the absolute file path for trial data
     const filePath = path.join(trialDataDir, `data-${user_id}.csv`);  // Save the trial data using user_id
 
-    console.log(`Saving trial data to: ${filePath}`);  // Use template literals for logging
+    console.log(`Saving trial data to: ${filePath}`);  // Log the file path
 
     // Set up the CSV writer with the correct headers for trial data
     const csvWriter = createCsvWriter({
@@ -106,7 +123,7 @@ app.post('/submit-trial-data', (req, res) => {
     const records = trials.map(trial => ({
         user_id: user_id,
         name: name,
-        list: trial.list,  // Assuming each trial has a 'list' attribute
+        list: trial.list, 
         trial_id: trial.trial_id,
         first_choice: trial.first_choice,
         second_choice: trial.second_choice,
@@ -126,8 +143,7 @@ app.post('/submit-trial-data', (req, res) => {
         });
 });
 
-
 // Start the server
 app.listen(port, () => {
-    console.log(`Server is running on port ${port}`);  // Use template literals for logging
+    console.log(`Server is running on port ${port}`);  // Log the server start
 });

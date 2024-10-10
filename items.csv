@@ -1,3 +1,14 @@
-number,item,reference,type,phrase,image1,image2,image3,expected
+
+
+## This is example format we will be storing images ##
+## haven't planned how to structure the data yet ##
+
+
+
+itemnum,anim1,anim2,prep,inan1,inan2,inan3
 1,1,no adj,the glasses,big_glasses.png,rabbit.png,big_sandwich.png,cheese.png,big_glasses.png
 2,2,color,the green frog,green_frog.png,brown_frog.png,violin.png,cat.png,green_frog.png
+3
+4
+5
+6
