@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import TrialLayout from './TrialLayout';
 
 const trials = [
@@ -37,8 +37,13 @@ const trials = [
 ];
 
 function TrialPage({ userData, onComplete }) {
-    const [currentTrialIndex, setCurrentTrialIndex] = useState(0);
+    useEffect(() => {
+        // Log the userData to check if the timestamp and other details are received
+        console.log("UserData in TrialPage:", userData);
+    }, [userData]);
 
+    const [currentTrialIndex, setCurrentTrialIndex] = useState(0);
+ 
     return (
         <div>
             <TrialLayout

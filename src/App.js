@@ -13,6 +13,8 @@ function App() {
     };
 
     const handleFormSubmit = (formData) => {
+        // Log the form data received from InfoForm
+        console.log("Form data received in App:", formData);
         setUserData(formData); // Save the form data
         setStage('trial'); // Move from the form to the trial
     };

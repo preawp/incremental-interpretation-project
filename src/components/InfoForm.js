@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import '../styles/InfoForm.css';  
 
 function InfoForm({ onSubmit }) {
+    // Generate the timestamp and date right before form submission
+    const timestamp = new Date().toISOString(); // Full timestamp (e.g., 2024-10-10T12:34:56.789Z)
+
     const [formData, setFormData] = useState({
         userID: '',
         name: '',
@@ -9,7 +12,9 @@ function InfoForm({ onSubmit }) {
         gender: '',
         native: '',
         computer: '',
-        fullscreen: ''
+        fullscreen: '',
+        timestamp: timestamp    
+
     });
 
     const handleChange = (e) => {
@@ -20,34 +25,35 @@ function InfoForm({ onSubmit }) {
         });
     };
 
-    
-const handleSubmit = (e) => {
-    e.preventDefault();
+    const handleSubmit = (e) => {
+        e.preventDefault();
 
-    // Send the full form data
-    fetch('http://localhost:3001/submit-name', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),  // Send all form data
-    })
-        .then(response => response.text())
-        .then(data => {
-            console.log(data);  // Log the success message
-            
-            alert(`Form submitted successfully! Name = ${formData.name}`);
 
+        // Log the updated form data before sending
+        console.log("Updated formData:", formData);
+
+        // Send the full form data including the new timestamp and date
+        fetch('http://localhost:3001/submit-name', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(formData),  // Send all form data including timestamp and date
         })
-        .catch(error => {
-            console.error('Error submitting form:', error);
-            alert('An error occurred while submitting the form');
-        });
+            .then(response => response.text())
+            .then(data => {
+                console.log(data);  // Log the success message
+                console.log("Data to submit:", JSON.stringify(formData, null, 2));
+                alert(`Form submitted successfully! Name = ${formData.name}`);
 
-    onSubmit(formData);  // Optionally pass the form data to the parent if needed
-};
+            })
+            .catch(error => {
+                console.error('Error submitting form:', error);
+                alert('An error occurred while submitting the form');
+            });
 
-
+        onSubmit(formData);  // Optionally pass the form data to the parent if needed
+    };
 
     return (
         <div id="shade">
@@ -104,4 +110,4 @@ const handleSubmit = (e) => {
     );
 }
 
-export default InfoForm; 
+export default InfoForm;

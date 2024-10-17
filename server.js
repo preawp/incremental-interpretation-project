@@ -54,11 +54,12 @@ if (!fs.existsSync(trialDataDir)) {
 }
 
 app.post('/submit-name', (req, res) => {
-    const { name, age, gender, native, computer, fullscreen } = req.body;  // Extract all form data
+    const { name, age, gender, native, computer, fullscreen, timestamp} = req.body;  // Extract all form data
 
     // Increment user count and assign a unique user ID
     const userId = incrementUserCount();
     console.log(`Updated userCount: ${userId}`);  // Log the updated userCount
+
 
     // Define the absolute file path for user data
     const filePath = path.join(userDataDir, `userdata-${userId}.csv`);  // Save the file in userdata directory
@@ -74,12 +75,13 @@ app.post('/submit-name', (req, res) => {
             { id: 'gender', title: 'Gender' },
             { id: 'native', title: 'Native Speaker' },
             { id: 'computer', title: 'Using Computer' },
-            { id: 'fullscreen', title: 'Full-screen Mode' }
+            { id: 'fullscreen', title: 'Full-screen Mode' },
+            { id: 'timestamp', title: 'Timestamp' }
         ],
     });
 
     // Write form data (without extra 'user_id')
-    csvWriter.writeRecords([{ name, age, gender, native, computer, fullscreen }])
+    csvWriter.writeRecords([{ name, timestamp,age, gender, native, computer, fullscreen}])
         .then(() => {
             console.log(`User data saved to ${filePath}`);
             // Send the userId back to the frontend

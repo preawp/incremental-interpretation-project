@@ -2,6 +2,11 @@ import React, { useState, useEffect } from 'react';
 import '../styles/TrialLayout.css'; // Make sure the styles are linked
 
 const TrialLayout = ({ trials, currentTrialIndex, totalTrials, setCurrentTrialIndex, onComplete, userData }) => {
+    useEffect(() => {
+        // Log the userData received in TrialLayout
+        console.log("UserData in TrialLayout:", userData); 
+    }, [userData]);
+    
     const [instructionStepIndex, setInstructionStepIndex] = useState(0);
     const [currentTrialChoices, setCurrentTrialChoices] = useState({
         first_choice: null,
@@ -90,6 +95,7 @@ const TrialLayout = ({ trials, currentTrialIndex, totalTrials, setCurrentTrialIn
     const submitUserChoices = () => {
         const dataToSubmit = {
             name: userData.name,
+            timestamp: userData.timestamp,  // Add this to ensure timestamp is being submitted
             trials: userChoices  // This should now include all trials
         };
 
