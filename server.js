@@ -53,13 +53,21 @@ if (!fs.existsSync(trialDataDir)) {
     console.log('Created "data" directory');
 }
 
+let userdata_req = null;
+let userdata_res = null;
+
 app.post('/submit-name', (req, res) => {
-    const { name, age, gender, native, computer, fullscreen, timestamp} = req.body;  // Extract all form data
+    userdata_req = req;
+    userdata_res = res; // Extract all form data
+    console.log('Global values updated!');
+});
+
+function writeUserData(res, req) {
+    const { name, age, gender, native, computer, fullscreen, timestamp } = req.body;
 
     // Increment user count and assign a unique user ID
     const userId = incrementUserCount();
     console.log(`Updated userCount: ${userId}`);  // Log the updated userCount
-
 
     // Define the absolute file path for user data
     const filePath = path.join(userDataDir, `userdata-${userId}.csv`);  // Save the file in userdata directory
@@ -81,7 +89,7 @@ app.post('/submit-name', (req, res) => {
     });
 
     // Write form data (without extra 'user_id')
-    csvWriter.writeRecords([{ name, timestamp,age, gender, native, computer, fullscreen}])
+    csvWriter.writeRecords([{ name, age, gender, native, computer, fullscreen, timestamp }])
         .then(() => {
             console.log(`User data saved to ${filePath}`);
             // Send the userId back to the frontend
@@ -91,16 +99,16 @@ app.post('/submit-name', (req, res) => {
             console.error('Error writing CSV:', err);
             res.status(500).send('Error saving form data');
         });
-});
+}
 
 // POST route to handle trial data submission
 app.post('/submit-trial-data', (req, res) => {
     const { name, trials } = req.body;  // Extract name, and trial data
 
     // Get the current userCount again to ensure we have the correct user ID
-    const user_id = getUserCount();
-    console.log(`Received trial data for user_id: ${user_id}`); 
-    
+    const user_id = getUserCount() +1 ;
+    console.log(`Received trial data for user_id: ${user_id}`);
+
     // Define the absolute file path for trial data
     const filePath = path.join(trialDataDir, `data-${user_id}.csv`);  // Save the trial data using user_id
 
@@ -125,13 +133,15 @@ app.post('/submit-trial-data', (req, res) => {
     const records = trials.map(trial => ({
         user_id: user_id,
         name: name,
-        list: trial.list, 
+        list: trial.list,
         trial_id: trial.trial_id,
         first_choice: trial.first_choice,
         second_choice: trial.second_choice,
         third_choice: trial.third_choice,
         fourth_choice: trial.fourth_choice
     }));
+
+    writeUserData(userdata_res, userdata_req);
 
     // Write the trial data to the CSV file
     csvWriter.writeRecords(records)
@@ -143,6 +153,9 @@ app.post('/submit-trial-data', (req, res) => {
             console.error('Error writing CSV:', err);
             res.status(500).send('Error saving trial data');
         });
+
+
+
 });
 
 // Start the server
