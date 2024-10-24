@@ -1,6 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import '../styles/TrialLayout.css'; // Make sure the styles are linked
 
+// Function to shuffle the array of images
+const shuffleArray = (array) => {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+};
+
+
 const TrialLayout = ({ trials, currentTrialIndex, totalTrials, setCurrentTrialIndex, onComplete, userData }) => {
     useEffect(() => {
         // Log the userData received in TrialLayout
@@ -17,9 +27,18 @@ const TrialLayout = ({ trials, currentTrialIndex, totalTrials, setCurrentTrialIn
     const [userChoices, setUserChoices] = useState([]);
     const [finalSubmission, setFinalSubmission] = useState(false); // Monitor when to submit
 
+    // New state to hold the shuffled images
+    const [shuffledImages, setShuffledImages] = useState([]);
+
     const currentTrial = trials[currentTrialIndex];
     const words = currentTrial.instructionSteps[instructionStepIndex].split(" ");
 
+     // Shuffle images for the current trial when it loads
+     useEffect(() => {
+        const shuffled = shuffleArray([...currentTrial.images]); // Shuffle the images
+        setShuffledImages(shuffled); // Store shuffled images
+    }, [currentTrial]);
+    
     // Handle image clicks and progress through instruction steps
     const handleImageClickLocal = (imageLabel) => {
         console.log(`Image clicked: ${imageLabel}, Step: ${instructionStepIndex + 1}`);
@@ -131,7 +150,7 @@ const TrialLayout = ({ trials, currentTrialIndex, totalTrials, setCurrentTrialIn
                 ))}
             </div>
             <div className="trial-grid">
-                {currentTrial.images.map((image) => (
+                {shuffledImages.map((image) => (
                     <div key={image.id} className="trial-option" onClick={() => handleImageClickLocal(image.label)}>
                         <img src={image.imgSrc} alt={image.label} className="trial-image" />
                     </div>
