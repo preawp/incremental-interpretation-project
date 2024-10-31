@@ -1,14 +1,26 @@
+##rel : Relative adjective scales: <warm, hot> ##
+##Minimum-standard adjective scales: <breezy, windy> ##
+
+#critical trial#
+#contain 12 items of list 1 and list 2#
+item_num, list, name, contrast, image1, image2, image3, image4, expected, text
+1, 1, rel1, yes, hot-competitor.png, warm-target.png, cold-contrast.png, rock-distractor.png, warm-target.png, Click on the picture of the warm water with the purple spoon.
+2, 1, rel2, yes
+3, 1, rel3, yes
+4, 1, min1, no
+5, 1, min2, no
+6, 1, min3, no
+7, 2, rel1, no
+8, 2, rel2, no
+9, 2, rel3, no
+10, 2, min1, yes
+11, 2, min2, yes
+12, 2, min3, yes
 
 
-## This is example format we will be storing images ##
-## haven't planned how to structure the data yet ##
 
+//original paper 
+Item_num,SimilarPicNo,Item_type2,Item_type1,Target_adj,Target_noun,Disambiguation,AdjectiveScale,AdjectiveType,ContrastCond,SimilarPic,Target_type,Competitor_type,ContrastDistractor2_type,Distractor1_type,Target_color,Competitor_color,Target_picture,Competitor_picture,ContrastORdistractor_picture,Distractor_picture,Target_position,Competitor_position,ContrastDistractor2_position,Distractor1_position,Pic_1_upper_left,Pic_2_upper_right,Pic_3_bottom_left,Pic_4_bottom_right,Group_num,Group,List_type,Trial_no
+13,3,filler3strong,filler,excellent,grade,with the green writing,performance,relative,unrelated,grade,strong,weak,antonym,distractor,green,unrelated,grades_A_green_writing.png,grades_B_blue_writing.png,grades_F_pink_writing.png,distractor14.png,1,4,3,2,grades_A_green_writing.png,distractor14.png,grades_F_pink_writing.png,grades_B_blue_writing.png,1,A,Alpha,1
+13,3,filler3strong,filler,excellent,grade,with the green writing,performance,relative,unrelated,grade,strong,weak,antonym,distractor,green,unrelated,grades_A_green_writing.png,grades_B_blue_writing.png,grades_F_pink_writing.png,distractor14.png,3,1,2,4,grades_B_blue_writing.png,grades_F_pink_writing.png,grades_A_green_writing.png,distractor14.png,20,T,Beta,1
 
-
-itemnum,anim1,anim2,prep,inan1,inan2,inan3
-1,1,no adj,the glasses,big_glasses.png,rabbit.png,big_sandwich.png,cheese.png,big_glasses.png
-2,2,color,the green frog,green_frog.png,brown_frog.png,violin.png,cat.png,green_frog.png
-3
-4
-5
-6
