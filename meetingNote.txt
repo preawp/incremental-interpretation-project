@@ -1,57 +1,30 @@
 #Meeting note
 
-Done:
-2 sample trials-> contrast / no contrast
-website basic mockup: welcome page, info form page
+* Conflicting name *
+- items 11,12,
 
-TBD:
-data handling in .csv
-- Ensure that participant data and trial results are correctly saved to the backend.
+  in csv. -> water_boiling_orange_spoon.png
+  in folder -> water_boiling_yellow_spoon.png
 
-- Do we handle them similar to example project?
-       - .csv to store img and instructions, trials info
-       - userdata folder store .txt file (info of each participant)/
-       - data folder store ,txt file (results)/
+- items 13, 14,15
 
-done:
-//instruction stay fixed, Choose the picture of the, ...
-//thank you for participating page
+  - in csv. -> grades_F_pink_writing.png
+  - in folder -> grades_F_purple_writing.png 
+ 
+ - item 24
+
+  - in .csv -> banana_overripe_orange_apple.png
+  - in folder -> banana_overripe_yellow_apple.png
+
+-items 25, 26
+
+  - in .csv -> woman_young_blond_hair.png
+  - in folder -> woman_young_ginger_hair.png
 
 
-//Subject_id item_id cord display_order, img_selected, text
-//block random assignment/ , alternative randomization
-4 *3 = 12 displays
+* Inconsistent naming *
+  - in .csv -> grades_A+_green_writing.png
+  - in folder -> grades_A_green_writing.png]
 
-
-### Meeting Notes – Wed, October 10
-
-- **Thank You Page + Fixed Instructions Position:**
-
-- **User Data Storage:**
-  - User details (name, age, gender, etc.) are successfully being stored in the `userdata` directory.
-  - Status: Fully implemented and operational.
-
-- **Trial Data Storage:**
-  - The `data` directory is now tracking and storing user trial choices, including:
-    - `user_id`, `name`, `list`, `trial_id`, `first_choice`, `second_choice`, `third_choice`, `fourth_choice`.
-  - Status: Fully implemented and operational.
-
-- Noted: I use .csv instead of .txt because it's more organized
-
-#### Next Steps:
-- Testing/Debug/ Fix the error cases possible
-  - when user exit halfway, userdata is saved correctly while missing data
-  - ensure we keep track of userCount correctly in userCount.txt
-  - see other failed scenarios
-
-- See .zip file and all trial, set up filler.csv, items.csv and change image 
-  name accordingly to trial preparing to incorporate more trials into the website.
-
-##Oct 24
-
-study's . js
-1. **Preloading resources**: Images are preloaded for smooth progression.
-2. **Experiment sequence**: It starts with consent and demographic collection, followed by instructions, practice trials with feedback, and then the actual experiment.
-3. **Task**: Participants select one of four images based on a gradually revealed sentence, with responses logged for analysis.
-4. **Finalization**: Afterward, participants submit comments and their Prolific ID.
-
+  - in .csv -> woman_old_grey_hair.png
+  - in folder -> woman_old_gray_hair.png

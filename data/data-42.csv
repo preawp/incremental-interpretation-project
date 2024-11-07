@@ -1,0 +1,3 @@
+User ID,Name,List,Trial ID,First Choice,Second Choice,Third Choice,Fourth Choice
+42,d,1,1,Distractor,Target,Contrast,Competitor
+42,d,1,2,Target,Distractor,Competitor,Contrast
