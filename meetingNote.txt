@@ -24,7 +24,10 @@
 
 * Inconsistent naming *
   - in .csv -> grades_A+_green_writing.png
-  - in folder -> grades_A_green_writing.png]
+  - in folder -> grades_A_green_writing.png
 
   - in .csv -> woman_old_grey_hair.png
   - in folder -> woman_old_gray_hair.png
+
+
+  -> now data and userdata isn't saved correctly, will modified old logic to now store 30 choices .
