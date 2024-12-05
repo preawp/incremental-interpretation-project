@@ -30,4 +30,16 @@
   - in folder -> woman_old_gray_hair.png
 
 
-  -> now data and userdata isn't saved correctly, will modified old logic to now store 30 choices .
+
+
+  -> csv save all 30 choices 
+  -> all pics randomized 
+  
+
+*NEXT*
+- we label each pic with -> contrast, distractor-1 so we will now add its position on screen
+in addition?
+- 
+
+-> spreadsheet 
+-> pos/ 

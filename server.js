@@ -1,3 +1,4 @@
+
 const express = require('express');
 const bodyParser = require('body-parser');
 const createCsvWriter = require('csv-writer').createObjectCsvWriter;
@@ -107,6 +108,7 @@ app.post('/submit-trial-data', (req, res) => {
 
     // Get the current userCount again to ensure we have the correct user ID
     const user_id = getUserCount() +1 ;
+
     console.log(`Received trial data for user_id: ${user_id}`);
 
     // Define the absolute file path for trial data
@@ -162,3 +164,8 @@ app.post('/submit-trial-data', (req, res) => {
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);  // Log the server start
 });
+
+
+
+
+
