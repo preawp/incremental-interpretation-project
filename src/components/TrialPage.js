@@ -504,58 +504,103 @@ function TrialPage({ userData, onComplete }) {
                 ]
             } 
      ];
+
+     //Dynamic spaceing + Fisher-Yates Shuffle -> flexible + randomized
+     //min of 3 spacing between critical trials restricted cluttered like 1-3 fillers between critical trials, and more on the filler trials, more variety
+     
+
+     //prepare the critical trials based on user group
      const criticalTrials = userGroup === 'alpha' ? criticalTrialsAlpha : criticalTrialsBeta;
 
-     // Create a final trial list ensuring uniform distribution of critical trials
-     const totalTrials = criticalTrials.length + fillerTrials.length; // Total trials count
-     const trialDistribution = new Array(totalTrials).fill(null); // Initialize empty array
-    
-     const shuffledCriticalTrials = criticalTrials.sort(() => Math.random() - 0.5); // Shuffle critical trials
-     // Distribute critical trials uniformly across the trial list
-     const criticalSpacing = Math.floor(totalTrials / shuffledCriticalTrials.length);
-     shuffledCriticalTrials.forEach((trial, index) => {
-         trialDistribution[index * criticalSpacing] = trial; // Place critical trials
-     });
+     // Fisher-Yates Shuffle Algorithm-> unbiased shuffle, O(n) time complexity
+     //[a, b, c]-> (abc, acb, bac, bca, cab, cba) equally likely
+     const fisherYatesShuffle = (array) => {
+        const arr = [...array]; //copy original array
+        for (let i = arr.length - 1; i > 0; i--) {
+            const randomIndex = Math.floor(Math.random() * (i + 1)); // Random index in range [0, i]
+            [arr[i], arr[randomIndex]] = [arr[randomIndex], arr[i]]; // Swap elements
+        }
+        return arr;
+    };
 
-     // Fill remaining positions with shuffled filler trials
-     let fillerIndex = 0;
-     const shuffledFillers = fillerTrials.sort(() => Math.random() - 0.5); // Shuffle fillers
-     for (let i = 0; i < trialDistribution.length; i++) {
-         if (!trialDistribution[i]) {
-             trialDistribution[i] = shuffledFillers[fillerIndex++];
-         }
-     }
+    // Dynamic critical trial placement with minimum spacing
+    const distributeCriticalTrialsWithDynamicSpacing = (criticalTrials, fillerTrials, totalTrials, minSpacing) => {
+        //null vals
+        const trialDistribution = new Array(totalTrials).fill(null);
 
-     console.log("Final Trial Distribution:", trialDistribution); // Debug: Final trial order
-     return trialDistribution; // Return the final trial list
- };
+        // Shuffle critical and filler trials
+        const shuffledCriticalTrials = fisherYatesShuffle(criticalTrials);
+        const shuffledFillers = fisherYatesShuffle(fillerTrials);
 
- // For debugging: Replace with real user ID logic
- const userId = 41; // Example user ID: even -> 'alpha', odd -> 'beta'
- console.log(`Generated userId: ${userId}`); // Debug log for userId
+        let placedIndices = []; // Track where critical trials are placed
 
- // Assign trials and set state
- const assignedTrials = assignTrials(userId);
- setTrials(assignedTrials); // Save assigned trials to state
- setLoading(false); // Indicate loading completion
-}, [userData]); // Effect runs whenever userData changes
+        // Place critical trials dynamically with constraints 
+        shuffledCriticalTrials.forEach((trial) => {
+            let position;
+            do {
+                position = Math.floor(Math.random() * totalTrials);
+            } while (
+                trialDistribution[position] || // Position already occupied
+                placedIndices.some((index) => Math.abs(index - position) < minSpacing) // Too close to another critical trial
+            );
 
-if (loading) {
- return <div>Loading trials...</div>; // Show loading state
-}
+            trialDistribution[position] = trial;
+            placedIndices.push(position);
+        });
 
-return (
- <div>
-     <TrialLayout
-         trials={trials} // Pass trials to TrialLayout component
-         currentTrialIndex={currentTrialIndex} // Current trial index
-         totalTrials={trials.length} // Total number of trials
-         userData={userData} // Pass user data to TrialLayout
-         setCurrentTrialIndex={setCurrentTrialIndex} // Function to update current trial
-         onComplete={onComplete} // Callback when trials are completed
-     />
- </div>
-);
-}
+        // Fill remaining slots with fillers
+        let fillerIndex = 0;
+        for (let i = 0; i < trialDistribution.length; i++) {
+            if (!trialDistribution[i]) {
+                trialDistribution[i] = shuffledFillers[fillerIndex++];
+            }
+        }
 
-export default TrialPage;
+        return trialDistribution;
+    };
+
+    // Parameters for trial distribution
+    const totalTrials = 24; 
+    const minSpacing = 3; // Minimum spacing between critical trials
+
+    // Generate final trial distribution
+    const trialDistribution = distributeCriticalTrialsWithDynamicSpacing(
+        criticalTrials,
+        fillerTrials,
+        totalTrials,
+        minSpacing
+    );
+
+    console.log("Final Trial Distribution:", trialDistribution); // Debug: Display final trial list
+    return trialDistribution; 
+    };
+
+    // For debugging, will work on real userid
+    const userId = 41; // Example user ID: even -> 'alpha', odd -> 'beta'
+    console.log(`Generated userId: ${userId}`); 
+
+    // Assign trials and update state
+    const assignedTrials = assignTrials(userId);
+    setTrials(assignedTrials); 
+    setLoading(false);
+    }, [userData]);
+
+    if (loading) {
+    return <div>Loading trials...</div>; 
+    }
+
+    return (
+    <div>
+    <TrialLayout
+        trials={trials}
+        currentTrialIndex={currentTrialIndex}
+        totalTrials={trials.length}
+        userData={userData} 
+        setCurrentTrialIndex={setCurrentTrialIndex} 
+        onComplete={onComplete} 
+    />
+    </div>
+    );
+    }
+
+    export default TrialPage;
